@@ -8,7 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="FXMLPrueba.jar" size="48101" download="eager" />
+    <jar href="FXMLPrueba.jar" size="53696" download="eager" />
+    <jar href="lib\mariadb-java-client-3.2.0.jar" size="650721" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="FXMLPrueba" >
     <param name="requiredFXVersion" value="8.0+"/>
