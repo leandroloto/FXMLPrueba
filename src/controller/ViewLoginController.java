@@ -29,6 +29,7 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javax.swing.JOptionPane;
 import model.Users;
+import model.Usuario;
 
 /**
  * FXML Controller class
@@ -74,15 +75,33 @@ public class ViewLoginController implements Initializable {
             if(!txtUser.getText().isEmpty() && !txtPassword.getText().isEmpty()){
                 String user = txtUser.getText();
                 String pass = txtPassword.getText();
-                
-                int state = model.loginConex(user, pass);
-                if(state == 1){
-                    loadStage("/view/viewPrincipal.fxml", event);
-                    JOptionPane.showMessageDialog(null, "Bienvenido "+user);
-                }else{
-                    JOptionPane.showMessageDialog(null, "Usuario o contraseña son incorrectos. Verifique.");
+                int cont = 0;
+                Usuario usu = model.loginConex(user, pass);
+                try{
+                for (int i = 0; i < usu.getUser().length(); i++) {
+                    if(usu.getUser().charAt(i) == user.charAt(i)){
+                    }else{
+                        cont++;
+                        break;
+                    }
                 }
-                
+                for(int i = 0; i < usu.getPass().length(); i++){
+                        if(usu.getPass().charAt(i)==pass.charAt(i)){
+                        }else{
+                            cont++;
+                            break;
+                        }
+                }
+                if(cont==0){
+                    loadStage("/view/viewPrincipal.fxml", event);
+                     JOptionPane.showMessageDialog(null, "Bienvenido "+user);
+                }else{
+                    
+                     JOptionPane.showMessageDialog(null, "Usuario o contraseña son incorrectos. Verifique.");
+                }
+                }catch(Exception ex){
+                    JOptionPane.showMessageDialog(null, "eRROR. Usuario o contraseña son incorrectos. Verifique.");
+                }
             }else{
                 JOptionPane.showMessageDialog(null,"Error al iniciar sesion, datos incorrectos."+" Advertencia: "+JOptionPane.WARNING_MESSAGE);
             }
@@ -102,16 +121,20 @@ public class ViewLoginController implements Initializable {
         
         try{
             
+            //((Node)(event.getSource())).getScene().getWindow().hide();
+            
             Object eventSource = event.getSource();
             Node sourceAsNode = (Node) eventSource;
             Scene oldScene = sourceAsNode.getScene();
             Window window = oldScene.getWindow();
             Stage stage = (Stage) window;            
-            stage.hide();
+            //stage.hide();
             
             Parent root = FXMLLoader.load(getClass().getResource(url));
             Scene scene = new Scene(root);
             stage.setScene(scene);
+             
+            /*
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.show();
@@ -122,7 +145,7 @@ public class ViewLoginController implements Initializable {
                     Platform.exit();
                 }
             });
-            
+            */
         } catch (IOException ex) {
             Logger.getLogger(ViewLoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

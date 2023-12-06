@@ -25,10 +25,10 @@ public class Users {
         con = Conexion.getConexion();
     }
     
-    public int loginConex(String user, String pass){
+    public Usuario loginConex(String user, String pass){
         Usuario use= new Usuario();
         int exito=0;
-        String sql = "SELECT * FROM us WHERE BINARY usuario = ? AND password = AES_ENCRYPT(?,'key')";
+        String sql = "SELECT * FROM us WHERE usuario = ? AND password = ?";
             try {
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setString(1, user);
@@ -37,15 +37,12 @@ public class Users {
                 if(rs.next()){
                     use.setUser(rs.getString("usuario"));
                     use.setPass(rs.getString("password"));
-                    exito=1;
-                }else{
-                    exito=0;
                 }
                 ps.close();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo encontrar el usuario y la contraseña. Verifique.");
             }
-        return exito;
+        return use;
     }
 
 }
